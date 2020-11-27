@@ -38,8 +38,8 @@ static ssize_t key_read(struct file *filp, char *buf, size_t count, loff_t *l)
 static void key_interrupt(int irq, void *dev_id, struct pt_regs *regs)
 {
     key_data = (*(key)&0xf000) >> 12;
-    printk("interrupt! : keypad(%d)\n", key_data);
-    wake_up_interrupt(&key_queue);
+    //printk("interrupt! : keypad(%d)\n", key_data);
+    wake_up_interruptible(&key_queue);
 }
 
 static struct file_operations key_fops = {
