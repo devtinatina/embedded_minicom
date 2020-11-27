@@ -5,9 +5,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <linux/ioctl.h>
+
 #define LCD_DEV_MAGIC 'Y'
 #define LCD_INIT _IO(LCD_DEV_MAGIC, 0)
+#define LCD_SET_POS _IOW(LCD_DEV_MAGIC, 1, int)
+
 #define MSG_SIZE 1000
+
 int main(void)
 {
     int sockfd;
@@ -56,6 +60,11 @@ int main(void)
             {
             case 'I':
                 ioctl(fd_clcd, LCD_INIT);
+                break;
+            case 'P':
+                pos = atoi(msg + 2);
+                printf("pos:%d\n", pos);
+                ioctl(fd_clcd, LCD_SET_POS, pos);
                 break;
             default:
                 printf("unknown message\n");

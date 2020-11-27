@@ -15,6 +15,7 @@ int main()
 
     char ipaddr[] = "192.168.0.9";
     int port = 5000;
+    int addr_len;
 
     int numbytes;
     char msg[MSG_SIZE];
@@ -29,14 +30,13 @@ int main()
     their_addr.sin_port = htons(port);
     their_addr.sin_addr = *((struct in_addr *)he->h_addr);
 
-    //memset(&(their_addr.sin_zero), 0, 8);
+    memset(&(their_addr.sin_zero), 0, 8);
 
     while (1)
     {
-        printf("input : ");
+        printf("input message: ");
         //scanf("%s", msg);
         fgets(msg, MSG_SIZE, stdin);
-
         if (msg[strlen(msg) - 1] == '\n')
             msg[strlen(msg) - 1] = '\0';
 
