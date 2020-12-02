@@ -15,7 +15,7 @@ int main(void)
 
     int value;
     char ch;
-    char blank[17] = "                    ";
+    char blank[17] = "                 ";
 
     int pos = 17;
     ioctl(fd_clcd, LCD_INIT);
