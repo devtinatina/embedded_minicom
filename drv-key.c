@@ -60,7 +60,7 @@ static int __init key_init(void)
     return result;
 }
 
-static int __exit key_exit(void
+static int __exit key_exit(void)
 {
     disable_irq(KEY_IRQ);
     free_irq(KEY_IRQ, NULL);

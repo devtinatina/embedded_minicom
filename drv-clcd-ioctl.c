@@ -82,11 +82,14 @@ static ssize_t clcd_write(struct file *filp, const char *buffer, size_t length, 
 {
     int i;
     char str[100];
+
     copy_from_user(str, buffer, length);
     str[length] = '\0';
     printk("[Drv] %s\n", str);
+
     for (i = 0; i < 16 && str[i] != '\0'; i++)
         clcd_out(1, 0, 1, str[i]);
+        
     return length;
 }
 int clcd_open(struct inode *inode, struct file *filp)

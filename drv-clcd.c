@@ -19,6 +19,7 @@ unsigned short *clcd;
 // 추가된 부분 : 매직 넘버와 명령어 번호
 #define LCD_DEV_MAGIC 'Y'
 #define LCD_INIT _IO(LCD_DEV_MAGIC, 0)
+#define LCD_SET_POS _IOW(LCD_DEV_MAGIC, 1, int)
 //
 void clcd_out(int e, int rw, int rs, unsigned char value)
 {
@@ -38,6 +39,19 @@ void initialize(void)
     clcd_out(1, 0, 0, 0x0C);
     clcd_out(1, 0, 0, 0x01);
 }
+
+void set_position(int arg)
+{
+    if (arg >= 1 && arg <= 16)
+        arg = arg - 1;
+    else if (arg >= 17 && arg <= 32)
+        arg = 0x40 + (arg - 17);
+    else
+        arg = 0;
+
+    clcd_out(1, 0, 0, 0x80 | (unsigned char)arg);
+}
+
 // 추가된 부분 : 사용자의 ioctl 호출에 대응하는 함수
 int clcd_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg)
 {
@@ -53,6 +67,10 @@ int clcd_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigne
         initialize();
         break;
     // 새로운 ioctl 명령어는 이쯤에 추가한다.
+    case LCD_SET_POS:
+        printk("ioctl : LCD_SET_POS\n");
+        set_position(arg);
+        break;
     default:
         printk("ioctl : unknown command\n");
         break;

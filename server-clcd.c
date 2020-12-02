@@ -70,17 +70,18 @@ int main(void)
                 printf("unknown message\n");
                 break;
             }
-            else
-            {
-                write(fd_clcd, msg, strlen(msg));
-            }
         }
-        if (!strcmp(msg, "BYE") || !strcmp(msg, "bye"))
-            break;
+        else
+        {
+            write(fd_clcd, msg, strlen(msg));
+        }
     }
+    if (!strcmp(msg, "BYE") || !strcmp(msg, "bye"))
+        break;
+}
 
-    close(sockfd);
-    close(fd_clcd);
+close(sockfd);
+close(fd_clcd);
 
-    return 0;
+return 0;
 }

@@ -15,7 +15,7 @@ int main(void)
 
     int value;
     char ch;
-    const char *blank = "                ";
+    char blank[17] = "                    ";
 
     int pos = 17;
     ioctl(fd_clcd, LCD_INIT);
@@ -24,12 +24,15 @@ int main(void)
     {
         read(fd_key, &value, sizeof(int));
         if (value == 11)
-            break;            // # : exit break;
+        {
+            ioctl(fd_clcd, LCD_INIT);
+            break; // # : exit break;
+        }
         else if (value == 10) // * : next line
         {
             printf("set pos : %d\n", pos);
             ioctl(fd_clcd, LCD_SET_POS, pos);
-            write(fd_clcd, blank, 16);
+            write(fd_clcd, blank, strlen(blank));
             ioctl(fd_clcd, LCD_SET_POS, pos);
             pos = (pos == 17) ? 1 : 17;
         }
